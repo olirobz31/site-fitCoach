@@ -15,6 +15,45 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
+// ========== BOUTON RÉSERVER - SCROLL VERS CONTACT ==========
+document.addEventListener('DOMContentLoaded', function() {
+    const btnReserve = document.querySelector('.btn-reserve');
+    
+    if (btnReserve) {
+        btnReserve.addEventListener('click', function(e) {
+            e.preventDefault();
+            const contactSection = document.querySelector('#contact');
+            if (contactSection) {
+                const navHeight = document.querySelector('.navbar').offsetHeight;
+                const targetPosition = contactSection.offsetTop - navHeight;
+                
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    }
+});
+
+// ========== TOUS LES BOUTONS CTA VERS CONTACT ==========
+const ctaButtons = document.querySelectorAll('.btn-primary, .btn-secondary');
+ctaButtons.forEach(button => {
+    button.addEventListener('click', function(e) {
+        e.preventDefault();
+        const contactSection = document.querySelector('#contact');
+        if (contactSection) {
+            const navHeight = document.querySelector('.navbar').offsetHeight;
+            const targetPosition = contactSection.offsetTop - navHeight;
+            
+            window.scrollTo({
+                top: targetPosition,
+                behavior: 'smooth'
+            });
+        }
+    });
+});
+
 // ========== NAVBAR SCROLL EFFECT ==========
 let lastScroll = 0;
 const navbar = document.querySelector('.navbar');
@@ -22,7 +61,6 @@ const navbar = document.querySelector('.navbar');
 window.addEventListener('scroll', () => {
     const currentScroll = window.pageYOffset;
     
-    // Ajoute un fond solide au scroll
     if (currentScroll > 100) {
         navbar.style.background = 'rgba(10, 10, 10, 0.98)';
         navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.5)';
@@ -38,29 +76,30 @@ window.addEventListener('scroll', () => {
 const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
 const navLinks = document.querySelector('.nav-links');
 
-mobileMenuBtn.addEventListener('click', () => {
-    navLinks.classList.toggle('active');
-    
-    // Animation de l'icône hamburger
-    const icon = mobileMenuBtn.querySelector('i');
-    if (navLinks.classList.contains('active')) {
-        icon.classList.remove('fa-bars');
-        icon.classList.add('fa-times');
-    } else {
-        icon.classList.remove('fa-times');
-        icon.classList.add('fa-bars');
-    }
-});
-
-// Fermer le menu mobile lors du clic sur un lien
-document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('click', () => {
-        navLinks.classList.remove('active');
+if (mobileMenuBtn && navLinks) {
+    mobileMenuBtn.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+        
         const icon = mobileMenuBtn.querySelector('i');
-        icon.classList.remove('fa-times');
-        icon.classList.add('fa-bars');
+        if (navLinks.classList.contains('active')) {
+            icon.classList.remove('fa-bars');
+            icon.classList.add('fa-times');
+        } else {
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+        }
     });
-});
+
+    // Fermer le menu mobile lors du clic sur un lien
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+            navLinks.classList.remove('active');
+            const icon = mobileMenuBtn.querySelector('i');
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+        });
+    });
+}
 
 // ========== SCROLL ANIMATIONS ==========
 const observerOptions = {
@@ -77,7 +116,6 @@ const observer = new IntersectionObserver((entries) => {
     });
 }, observerOptions);
 
-// Éléments à animer au scroll
 const animatedElements = document.querySelectorAll(
     '.service-card, .testimonial-card, .about-content, .about-image, .contact-info, .contact-form-wrapper'
 );
@@ -118,7 +156,6 @@ const animateCounters = () => {
     counterAnimated = true;
 };
 
-// Observer pour les compteurs
 const heroObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -135,34 +172,32 @@ if (heroStats) {
 // ========== FORM HANDLING ==========
 const contactForm = document.getElementById('contactForm');
 
-contactForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    
-    // Animation de succès
-    const submitBtn = contactForm.querySelector('.btn-submit');
-    const originalText = submitBtn.textContent;
-    
-    submitBtn.textContent = 'ENVOI EN COURS...';
-    submitBtn.disabled = true;
-    submitBtn.style.opacity = '0.7';
-    
-    // Simulation d'envoi (remplacer par votre logique d'envoi réel)
-    setTimeout(() => {
-        submitBtn.textContent = '✓ MESSAGE ENVOYÉ !';
-        submitBtn.style.background = 'linear-gradient(135deg, #4CAF50, #45a049)';
+if (contactForm) {
+    contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
         
-        // Réinitialiser le formulaire
-        contactForm.reset();
+        const submitBtn = contactForm.querySelector('.btn-submit');
+        const originalText = submitBtn.textContent;
         
-        // Remettre le bouton à l'état initial après 3 secondes
+        submitBtn.textContent = 'ENVOI EN COURS...';
+        submitBtn.disabled = true;
+        submitBtn.style.opacity = '0.7';
+        
         setTimeout(() => {
-            submitBtn.textContent = originalText;
-            submitBtn.style.background = 'linear-gradient(135deg, var(--primary-orange), var(--secondary-orange))';
-            submitBtn.disabled = false;
-            submitBtn.style.opacity = '1';
-        }, 3000);
-    }, 1500);
-});
+            submitBtn.textContent = '✓ MESSAGE ENVOYÉ !';
+            submitBtn.style.background = 'linear-gradient(135deg, #4CAF50, #45a049)';
+            
+            contactForm.reset();
+            
+            setTimeout(() => {
+                submitBtn.textContent = originalText;
+                submitBtn.style.background = 'linear-gradient(135deg, var(--primary-orange), var(--secondary-orange))';
+                submitBtn.disabled = false;
+                submitBtn.style.opacity = '1';
+            }, 3000);
+        }, 1500);
+    });
+}
 
 // ========== PARALLAX EFFECT ==========
 window.addEventListener('scroll', () => {
@@ -272,7 +307,6 @@ window.addEventListener('scroll', () => {
     });
 });
 
-// Ajouter le style pour le lien actif
 const activeStyle = document.createElement('style');
 activeStyle.textContent = `
     .nav-links a.active {
@@ -284,25 +318,6 @@ activeStyle.textContent = `
     }
 `;
 document.head.appendChild(activeStyle);
-
-// ========== TYPING EFFECT ==========
-const heroTitle = document.querySelector('.hero-title-orange');
-if (heroTitle) {
-    const originalText = heroTitle.textContent;
-    heroTitle.textContent = '';
-    let i = 0;
-    
-    const typeWriter = () => {
-        if (i < originalText.length) {
-            heroTitle.textContent += originalText.charAt(i);
-            i++;
-            setTimeout(typeWriter, 100);
-        }
-    };
-    
-    // Démarrer l'effet après un court délai
-    setTimeout(typeWriter, 500);
-}
 
 // ========== TILT EFFECT ON CARDS ==========
 const cards = document.querySelectorAll('.service-card, .testimonial-card');
