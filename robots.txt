@@ -1,0 +1,13 @@
+# Robots.txt pour FitCoach
+# https://olirobz31.github.io/site-fitCoach/
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://olirobz31.github.io/site-fitCoach/sitemap.xml
+
+# Fichiers à ne pas indexer
+Disallow: /test-chatbot.html
+Disallow: /.git/
+Disallow: /.claude/
